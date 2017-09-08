@@ -1,0 +1,19 @@
+"0","library(xtable)"
+"0","      wdata2 = data.frame("
+"0","  Tratamiento = factor(rep(c(""Nada"", ""Hongos"", 'Solarizada', 'Basamid'), each=200)),"
+"0","  UFC = c(rnorm(200, 4), rnorm(200, 8), rnorm(200, 4), rnorm(200, 4)))"
+"0","print(xtable(anova(mod<-lm(UFC~Tratamiento, data=wdata2))))"
+"1","% latex table generated in R 3.4.1 by xtable 1.8-2 package
+% Fri Sep 08 00:05:59 2017
+\begin{table}[ht]
+\centering
+\begin{tabular}{lrrrrr}
+  \hline
+ & Df & Sum Sq & Mean Sq & F value & Pr($>$F) \\ 
+  \hline
+Tratamiento & 3 & 2480.81 & 826.94 & 852.28 & 0.0000 \\ 
+  Residuals & 796 & 772.33 & 0.97 &  &  \\ 
+   \hline
+\end{tabular}
+\end{table}
+"

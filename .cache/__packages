@@ -1,0 +1,9 @@
+base
+car
+dplyr
+ggplot2
+bindrcpp
+magrittr
+ggpubr
+gridExtra
+xtable

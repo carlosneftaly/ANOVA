@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "wdata2 = data.frame(\n  Tratamiento = factor(rep(c(\"Nada\", \"Hongos\", 'Solarizada', 'Basamid'), each=200)),\n  UFC = c(rnorm(200, 4), rnorm(200, 8), rnorm(200, 4), rnorm(200, 3.5)))\n\n\ngghistogram(wdata2, x = \"UFC\",\n            add = \"mean\", rug = TRUE,\n            fill = \"Tratamiento\",\n            add_density = TRUE) + scale_color_futurama()\n\n\nwdata1 = data.frame(\n  Tratamiento = factor(rep(c(\"Nada\", \"Hongos\", 'Solarizada', 'Basamid'), each=200)),\n  UFC = c(rnorm(200, 4), rnorm(200, 4), rnorm(200, 4), rnorm(200, 3.5)))\n\n\nkable(anova(mod<-lm(UFC~Tratamiento, data=wdata2)))\n",
+    "created" : 1504839745945.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "229855373",
+    "id" : "F3CEDC69",
+    "lastKnownWriteTime" : 19422112699908188,
+    "last_content_update" : 1504847332264,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

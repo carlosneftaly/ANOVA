@@ -13,16 +13,282 @@ license : CC BY-NC
 knit        : slidify::knit2slides
 ---
 
-## Read-And-Delete
+## Introducción
+```{r Paquetes, include=FALSE}
+library(car)
+#library(agricolae)
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(gridExtra)
+```
 
-1. Edit YAML front matter
-2. Write using R Markdown
-3. Use an empty line followed by three dashes to separate slides!
+```{r, echo=FALSE, fig.align='center'}
+setwd("C:/Users/W/Google Drive/DOE - MIA/2017-2/Slides/Rmarkdown/ANOVA/assets/data")
+dat_Camp1<-read.csv('2017-02-22 Datos variables campo ciclo 1 (David A).csv',sep=';')
 
---- .class #id 
+datCampc1<-tbl_df(dat_Camp1)
+datCamC1<- group_by(datCampc1, Bloque,Tratamiento)
 
-## Slide 2
+datCamp1<-summarize(datCamC1, count = n(), Tallos = mean(Tallos, na.rm = T), Dtallos = mean(D_tallo, na.rm = T), Flores=mean(Flores, na.rm = T), D_flor=mean(D_flor, na.rm = T), L_ped=mean(L_ped, na.rm = T),
+                    Peso=mean(Peso, na.rm = T), Puntos=mean(Puntos, na.rm = T), L_tallo=mean(L_tallo, na.rm = T))
+
+datCamp1$Tratamiento <- factor(datCamp1$Tratamiento,
+                                levels=c('Nada','Hongos','Solarizada','Basamid'))
 
 
 
+
+## Ciclo 1 
+### Tallos 
+ggplot(datCamp1, aes(Tratamiento, Tallos)) + 
+  geom_boxplot(aes(fill = Tratamiento))  + 
+  geom_jitter(position = position_jitter(width = .15), alpha=0.3, size=2) +
+  xlab("Tratamiento") +
+  ylab("Log(UFC/g)") +theme_bw() + theme(legend.position = "none",axis.title.x=element_text(size = 22), 
+                                     axis.title.y = element_text(size = 22))
+```
+
+---
+
+## ANOVA unifactorial o de una vía 
+
+
+```{r, echo=FALSE,fig.align='center'}
+      knitr::include_graphics('./assets/img/poblaciones.png')
+```
+
+---
+
+
+## ANOVA unifactorial: Cuantitativa vs. categórica
+
+ Se refiere a una clase de muestreo o diseños experimentales, en los   cuales la variable __predictora__ o __explicativa__ es   _categórica_ y la variable __respuesta__ es  __continua__.
+
+```{r, echo=FALSE, fig.align='center', fig.height=6}
+## Ciclo 1 
+### Tallos 
+ggplot(datCamp1, aes(Tratamiento, Tallos)) + 
+  geom_boxplot(aes(fill = Tratamiento))  + 
+  geom_jitter(position = position_jitter(width = .15), alpha=0.3, size=2) +
+  xlab("Tratamiento") +
+  ylab("Log(UFC/g)") +theme_bw() + theme(legend.position = "none",axis.title.x=element_text(size = 22), 
+                                     axis.title.y = element_text(size = 22))
+```
+
+---
+
+## ANOVA unifactorial 
+
+Se fundamenta en la descomposición de la variación de una variable _respuesta_ $\bar{Y}$, entre la varainza explicada  y no   explicada por uno o varios factores.
+ 
+ <span style="display:block; height: 2cm;"></span>
+ 
+```{r, echo=FALSE,fig.align='center'}
+      knitr::include_graphics('./assets/img/anova_des.png')
+```
+
+---
+
+## ANOVA unifactorial: Objetivo
+
+<span style="display:block; height: 2cm;"></span>
+El `ANOVA` tiene como objetivos centrales:
+
+
++ Examinar la contribución relativa de cada una de las fuentes de variación, a la variabilidad total de $\bar{y}$.
+
++ Probar la hipótesis nula $(H_0)$, que la __media__ de los grupos o tratamientos son iguales. 
+
+---
+
+## ANOVA: Una perspectiva gráfica
+Cuando analizamos los datos usando análisis de varianza, el primer paso
+es poner a prueba la hipótesis nula global:
+
+\[ H_0: \mu_1 = \mu_2 = \mu_3= .. \mu_I\] contra
+
+
+\[ H_a: \text{al menos una media difiere} \]
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center',fig.height=4}
+wdata = data.frame(
+  Tratamiento = factor(rep(c("Nada", "Hongos", 'Solarizada', 'Basamid'), each=7)),
+  UFC = c(rnorm(7, 5.2), rnorm(7, 5), rnorm(7, 5), rnorm(7, 5)))
+
+ggdotplot(wdata, x='Tratamiento',y='UFC', xlab='Tratamiento',ylab='Log(UFC/g)', add='mean', color='Tratamiento')
+```
+
+
+---
+
+## ANOVA
+
+> +  Comparamos la variación __dentro de cada grupo__ con la obtenidad __entre cada grupo__ para evaluar si existen diferencias significativas en las medias poblacionales. 
+
+<span style="display:block; height: 2cm;"></span>
+
+> + Por lo tanto, al comparar estas dos medidas de varianza entre sí, podemos detectar si hay verdaderas diferencias entre las medias de la población. 
+
+
+---
+
+## ANOVA: Comparando varianzas
+
+Si la varianza __entre grupos__ es mucho mayor que la __dentro__ de los grupos: 
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center'}
+wdata2 = data.frame(
+  Tratamiento = factor(rep(c("Nada", "Hongos", 'Solarizada', 'Basamid'), each=6)),
+  UFC = c(rnorm(6, 4), rnorm(6, 8), rnorm(6, 4), rnorm(6, 3.5)))
+
+ggdotplot(wdata2, x='Tratamiento',y='UFC', xlab='Tratamiento',ylab='Log(UFC/g)', add='mean', color='Tratamiento')
+
+
+```
+
+
+---
+
+## ANOVA: Comparando varianzas
+
+Si la varianza __entre grupos__ es mucho mayor que la __dentro__ de los grupos: 
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center'}
+wdata2 = data.frame(
+  Tratamiento = factor(rep(c("Nada", "Hongos", 'Solarizada', 'Basamid'), each=200)),
+  UFC = c(rnorm(200, 4), rnorm(200, 8), rnorm(200, 4), rnorm(200, 4)))
+
+
+
+
+gghistogram(wdata2, x = "UFC",
+            add = "mean", rug = TRUE,
+            fill = "Tratamiento",
+            add_density = TRUE, xlab = 'UFC/g', ylab = 'Frecuencia')
+```
+
+
+---
+
+
+## ANOVA: Comparando varianzas
+
+Si la varianza __entre grupos__ es similar a la __dentro__ de los grupos: 
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center'}
+wdata3 = data.frame(
+  Tratamiento = factor(rep(c("Nada", "Hongos", 'Solarizada', 'Basamid'), each=200)),
+  UFC = c(rnorm(200, 4), rnorm(200, 4), rnorm(200, 4), rnorm(200, 4)))
+
+
+
+
+gghistogram(wdata3, x = "UFC",
+            add = "mean", rug = TRUE,
+            fill = "Tratamiento",
+            add_density = TRUE, xlab = 'UFC/g', ylab = 'Frecuencia')
+```
+
+
+---
+
+
+## ANOVA: Notación 
+
+
+  + $N$: número total de observaciones.
+  + $i$: número de grupos.
+  + $\bar{y}$: media general 'gran media'.
+
+Cada grupo $i$ tiene: 
+
+	+ $n_i$: número de observaciones en el grupo $i$.
+	+ $y_{ij}$ = observación _j_ en el grupo _i_
+	+ $\bar{y}_i$: media del grupo $i$.
+	+ $s_i$: Desviación de estándar en el grupo $i$.
+
+
+---
+
+
+## ANOVA: Particionando la varianza.... 
+
+El ANOVA está construido sobre el concepto de partición de la
+__suma de cuadrados__. La variación total en un conjunto de datos
+puede ser expresada como suma de cuadarados __(SS)__: La diferencia
+entre cada observación $(Y_i)$ y la gran media de los datos ($\bar{Y}$)
+elevado al cuadrado y sumado.
+
+
+
+\[\underbrace{Y_{ij}}_{Respuesta} = \underbrace{\bar{\mu}}_{\text{Media global}} + \underbrace{\tau_i}_{\text{Efecto del tto}} + \underbrace{e_{ij}}_{\text{Error aleatorio}} \]
+
+
+\[ SS_{total}= SS_{factor}+ SS_{error} \]
+
+---
+
+
+## ANOVA: Suma de cuadrados totales
+
+
+
+\[SS_{total}=\sum_{i=1}^{a} \sum_{j=1}^{n} (Y_{ij} - \bar{Y})^2 \]
+
+  <span style="display:block; height: 2cm;"></span>
+Siendo, 
+ $i$ = 1 hasta __a__ tratamientos ; $j$= 1 hasta __n__ réplicas.
+ 
+  <span style="display:block; height: 2cm;"></span>
+> Refleja la desviación de cada observación de la 'gran media'.
+
+---
+
+## ANOVA: Suma de cuadrados entre grupos 
+
+\[SS_{factor}=\sum_{i=1}^{a} \sum_{j=1}^{n} (\bar{Y}_{i} - \bar{Y})^2 \]
+
+> Representa la diferencia entre las medias de cada grupo o tratamiento con respcto a la media global.
+
+```{r, echo=FALSE,fig.align='center', fig.height=3}
+      knitr::include_graphics('./assets/img/betw.png')
+```
+
+---
+
+## ANOVA: Suma de cuadrados dentro de grupos 
+
+\[SS_{error}=\sum_{i=1}^{a} \sum_{j=1}^{n} (\bar{Y_{ij}} - \bar{Y_i})^2 \]
+
+> Representa el error aleatorio o variación residual.
+
+```{r, echo=FALSE,fig.align='center', fig.height=3}
+      knitr::include_graphics('./assets/img/into.png')
+```
+
+---
+
+## ANOVA: Tabla ANOVA
+
+  <span style="display:block; height: 4cm;"></span>
+```{r, echo=FALSE,fig.align='center', fig.height=3}
+      knitr::include_graphics('./assets/img/anova.png')
+```
+
+---
+
+## ANOVA: Tabla ANOVA
+
+  <span style="display:block; height: 4cm;"></span>
+```{r, echo=FALSE,fig.align='center'}
+library(xtable)
+      wdata2 = data.frame(
+  Tratamiento = factor(rep(c("Nada", "Hongos", 'Solarizada', 'Basamid'), each=200)),
+  UFC = c(rnorm(200, 4), rnorm(200, 8), rnorm(200, 4), rnorm(200, 4)))
+
+kable(anova(mod<-lm(UFC~Tratamiento, data=wdata2)), digits = 3)
+```
+
+---
 
