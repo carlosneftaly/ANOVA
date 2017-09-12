@@ -9,12 +9,13 @@ highlighter : highlight.js  # {highlight.js, prettify, highlight}
 hitheme     : tomorrow      # 
 widgets     : [mathjax, quiz, bootstrap]            # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {standalone, draft}
-license : CC BY-NC
+license     : CC 
 knit        : slidify::knit2slides
 ---
 
-## Introducción
+## Comparando dos grupos... 
 ```{r Paquetes, include=FALSE}
+ library("pander", lib.loc="~/R/win-library/3.4")
 library(car)
 #library(agricolae)
 library(dplyr)
@@ -22,6 +23,22 @@ library(ggplot2)
 library(ggpubr)
 library(gridExtra)
 ```
+
+```{r, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE}
+
+wdata = data.frame(
+   Cepa = factor(rep(c("Pseudomonas sp.", "Serratia sp."), each=200)),
+   Deg = c(rnorm(200, 52), rnorm(200, 58)))
+ggboxplot(wdata, x='Cepa',y='Deg', xlab='Cepa bacteriana',ylab='Concentración (ppm)')
+```
+
+--- 
+
+
+
+
+## Introducción
+
 
 ```{r, echo=FALSE, fig.align='center'}
 setwd("C:/Users/W/Google Drive/DOE - MIA/2017-2/Slides/Rmarkdown/ANOVA/assets/data")
@@ -133,6 +150,49 @@ ggdotplot(wdata, x='Tratamiento',y='UFC', xlab='Tratamiento',ylab='Log(UFC/g)', 
 
 ---
 
+
+## ANOVA: Comparando varianzas
+
+Si la varianza __entre grupos__ es similar a la __dentro__ de los grupos: 
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center'}
+wdata3 = data.frame(
+  Tratamiento = factor(rep(c("Nada", "Hongos", 'Solarizada', 'Basamid'), each=10)),
+  UFC = c(rnorm(10, 4), rnorm(10, 4), rnorm(10, 4), rnorm(10, 4)))
+
+
+
+
+ggdotplot(wdata3, x = "Tratamiento", y='UFC',
+            add = "mean", rug = TRUE,
+            fill = "Tratamiento",
+             xlab = 'UFC/g', ylab = 'UFC/g')
+```
+
+
+---
+
+## ANOVA: Comparando varianzas
+
+Si la varianza __entre grupos__ es similar a la __dentro__ de los grupos: 
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center'}
+wdata3 = data.frame(
+  Tratamiento = factor(rep(c("Nada", "Hongos", 'Solarizada', 'Basamid'), each=200)),
+  UFC = c(rnorm(200, 4), rnorm(200, 4), rnorm(200, 4), rnorm(200, 4)))
+
+
+
+
+gghistogram(wdata3, x = "UFC",
+            add = "mean", rug = TRUE,
+            fill = "Tratamiento",
+            add_density = TRUE, xlab = 'UFC/g', ylab = 'Frecuencia')
+```
+
+
+---
+
 ## ANOVA: Comparando varianzas
 
 Si la varianza __entre grupos__ es mucho mayor que la __dentro__ de los grupos: 
@@ -165,49 +225,8 @@ wdata2 = data.frame(
 gghistogram(wdata2, x = "UFC",
             add = "mean", rug = TRUE,
             fill = "Tratamiento",
-            add_density = TRUE, xlab = 'UFC/g', ylab = 'Frecuencia')
+            add_density = TRUE, xlab = 'Tratamiento', ylab = 'Frecuencia')
 ```
-
-
----
-
-
-## ANOVA: Comparando varianzas
-
-Si la varianza __entre grupos__ es similar a la __dentro__ de los grupos: 
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center'}
-wdata3 = data.frame(
-  Tratamiento = factor(rep(c("Nada", "Hongos", 'Solarizada', 'Basamid'), each=200)),
-  UFC = c(rnorm(200, 4), rnorm(200, 4), rnorm(200, 4), rnorm(200, 4)))
-
-
-
-
-gghistogram(wdata3, x = "UFC",
-            add = "mean", rug = TRUE,
-            fill = "Tratamiento",
-            add_density = TRUE, xlab = 'UFC/g', ylab = 'Frecuencia')
-```
-
-
----
-
-
-## ANOVA: Notación 
-
-
-  + $N$: número total de observaciones.
-  + $i$: número de grupos.
-  + $\bar{y}$: media general 'gran media'.
-
-Cada grupo $i$ tiene: 
-
-	+ $n_i$: número de observaciones en el grupo $i$.
-	+ $y_{ij}$ = observación _j_ en el grupo _i_
-	+ $\bar{y}_i$: media del grupo $i$.
-	+ $s_i$: Desviación de estándar en el grupo $i$.
-
 
 ---
 
@@ -224,11 +243,27 @@ elevado al cuadrado y sumado.
 
 \[\underbrace{Y_{ij}}_{Respuesta} = \underbrace{\bar{\mu}}_{\text{Media global}} + \underbrace{\tau_i}_{\text{Efecto del tto}} + \underbrace{e_{ij}}_{\text{Error aleatorio}} \]
 
+<span style="display:block; height: 3cm;"></span>
 
 \[ SS_{total}= SS_{factor}+ SS_{error} \]
 
 ---
 
+## Notación.... 
+
+  
+  + $N$: número total de observaciones.
+  + $i$: número de grupos.
+  + $\bar{y}$: media general 'gran media'.
+  
+Cada grupo $i$ tiene: 
+  
+  + $n_i$: número de observaciones en el grupo $i$.
+  + $y_{ij}$ = observación $j$ en el grupo $i$.
+  +  $\bar{y}_i$: media del grupo $i$.
+  + $s_i$: Desviación de estándar en el grupo $i$.
+
+---
 
 ## ANOVA: Suma de cuadrados totales
 
@@ -249,11 +284,13 @@ Siendo,
 
 \[SS_{factor}=\sum_{i=1}^{a} \sum_{j=1}^{n} (\bar{Y}_{i} - \bar{Y})^2 \]
 
-> Representa la diferencia entre las medias de cada grupo o tratamiento con respcto a la media global.
 
-```{r, echo=FALSE,fig.align='center', fig.height=3}
+
+```{r, echo=FALSE,fig.align='center', fig.height=2}
       knitr::include_graphics('./assets/img/betw.png')
 ```
+
+> Representa la diferencia entre las medias de cada grupo o tratamiento con respcto a la media global.
 
 ---
 
@@ -261,11 +298,11 @@ Siendo,
 
 \[SS_{error}=\sum_{i=1}^{a} \sum_{j=1}^{n} (\bar{Y_{ij}} - \bar{Y_i})^2 \]
 
-> Representa el error aleatorio o variación residual.
-
-```{r, echo=FALSE,fig.align='center', fig.height=3}
+```{r, echo=FALSE,fig.align='center', fig.height=2}
       knitr::include_graphics('./assets/img/into.png')
 ```
+
+> Representa el error aleatorio o variación residual.
 
 ---
 
@@ -292,3 +329,165 @@ kable(anova(mod<-lm(UFC~Tratamiento, data=wdata2)), digits = 3)
 
 ---
 
+## Comprobando Supuestos: Normalidad  
+
+Suponemos que los __errores__ y __las observaciones__, 
+dentro de cada grupo provienen de  poblaciones con distribución normal. 
+
+<span style="display:block; height: 1cm;"></span>
+     	 	 
+> \[H_o: \text{Los residuales están normalmente distribuidos.} \]
+
+<span style="display:block; height: 1cm;"></span>
+
+		
+> \[H_a: \text{Los residuales no  están normalmente distribuidos.} \]
+
+<span style="display:block; height: 1cm;"></span> 
+
+>La idea es no rechazar $H_o$ para asegurar el cumplimiento del supuesto.
+
+---
+
+## Normalidad: Validación gráfica mediante histogramas
+
+Los histogramas, de forma, exploratoria nos permite determinar _simetría_ y 
+_modalidad_ en nuestros datos.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.width=14, fig.height=5}
+wdata2 = data.frame(
+  Tratamiento = factor(rep(c("Nada", "Hongos", 'Solarizada', 'Basamid'), each=200)),
+  UFC = c(rnorm(200, 4), rnorm(200, 8), rnorm(200, 4), rnorm(200, 3.5)))
+
+
+dvpl<-gghistogram(wdata2, x = "UFC",
+            add = "mean",
+            
+            add_density = TRUE) 
+
+
+
+
+
+norm<-data.frame(
+  Tratamiento = factor(rep(c("Nada", "Hongos", 'Solarizada', 'Basamid'), each=200)),
+  UFC = c(rnorm(200, 4), rnorm(200, 4), rnorm(200, 4), rnorm(200, 4)))
+nopl<-gghistogram(norm, x = "UFC",
+            add = "mean", add_density = T
+            
+            ) 
+
+
+ggarrange(nopl, dvpl,
+          ncol = 2, nrow = 1)
+```
+
+---
+
+## Normalidad: Validación gráfica mediante Q-Q plot
+Los gráficos __cuantil-cuantil__ o __QQ plot__, nos permite contrastar nuestros datos con una distribución normal teórica.
+
+```{r, echo=FALSE,fig.align='center', fig.width=14, fig.height=3}
+      knitr::include_graphics('./assets/img/qqnorm.png')
+```
+
+
+---
+
+## Normalidad: Validación gráfica mediante Q-Q plot
+Los gráficos __cuantil-cuantil__ o __QQ plot__, nos permite contrastar nuestros datos con una distribución normal teórica.
+
+```{r, echo=FALSE,fig.align='center', fig.width=14, fig.height=3}
+      knitr::include_graphics('./assets/img/qqnormNO.png')
+```
+
+
+---
+
+## Normalidad: Validación mediante Pruebas
+
+ + Shapiro - Wilks  - `shapiro.test()`
+```{r}
+
+residuos<-rnorm(100, mean = 5, sd = 3)
+shapiro.test(residuos)
+```
+
+
+---
+
+## Comprobando Supuestos: Homocedasticidad
+
+Asumen que la varianza en la variable respuesta es la misma 
+en cada nivel, o combinación de los niveles del factor o factores.
+
+> \[H_o: \text{La varianza de $Y$ es igual en cada nivel del factor} \]
+
+<span style="display:block; height: 1cm;"></span>
+
+		
+> \[H_a: \text{La varianza de $Y$ no es igual en cada nivel del factor.} \]
+
+<span style="display:block; height: 1cm;"></span> 
+
+>La idea es no rechazar $H_o$ para asegurar el cumplimiento del supuesto.
+
+---
+
+
+## Homocedasticidad: Validación gráfica mediante Box-plot
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center'}
+
+wdata2 = data.frame(
+  Tratamiento = factor(rep(c("Nada", "Hongos", 'Solarizada', 'Basamid'), each=200)),
+  UFC = c(rnorm(200, 4), rnorm(200, 8), rnorm(200, 4), rnorm(200, 3.5)))
+ggplot(wdata2, aes(Tratamiento, UFC)) + 
+  geom_boxplot(aes(fill = Tratamiento))  + 
+  geom_jitter(position = position_jitter(width = .15), alpha=0.3, size=2) +
+  xlab("Tratamiento") +
+  ylab("Log(UFC/g)") +theme_bw() + theme(legend.position = "none",axis.title.x=element_text(size = 22), 
+                                     axis.title.y = element_text(size = 22))
+```
+
+---
+
+## Homocedasticidad: Validación gráfica model-plot
+
+```{r, echo=FALSE,fig.align='center', fig.width=14, fig.height=3}
+      knitr::include_graphics('./assets/img/homoced.png')
+```
+
+---
+
+## Homocedasticidad: Validación mediante pruebas 
+### Prueba de Bartlett - `bartlett.test()`
+ 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+bartlett.test(count ~ spray, data = InsectSprays)
+
+with(Moore, leveneTest(conformity, fcategory))
+with(Moore, leveneTest(conformity, interaction(fcategory, partner.status)))
+bartlett.test(conformity ~ fcategory, data=Moore)
+```
+
+---
+
+
+## Homocedasticidad: Validación mediante pruebas 
+### Prueba de Levene - `LeveneTest()`
+ 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+with(Moore, leveneTest(conformity, fcategory))
+with(Moore, leveneTest(conformity, interaction(fcategory, partner.status)))
+leveneTest(conformity ~ fcategory*partner.status, data=Moore)
+
+```
+
+---
+
+## Padoc
+
+---

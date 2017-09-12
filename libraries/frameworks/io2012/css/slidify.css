@@ -1,4 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700|Source+Code+Pro:500|Open+Sans|Oswald);
+@import url('https://fonts.googleapis.com/css?family=Permanent+Marker');
+@import url('https://fonts.googleapis.com/css?family=Cabin+Sketch|Londrina+Sketch" rel="stylesheet"');
 
 /* Styles for Table of Contents */
 #io2012-toc {
@@ -25,7 +27,7 @@
 
 .license {
   font-size: 14px;
-  color: #a9a9a9;
+  color: red;
   position: absolute;
   bottom: 30px;
   left: 60px;
@@ -33,13 +35,12 @@
 
 
 /* Styles for Title Slide */
-.title-slide hgroup > h1{
-  font-family: 'Oswald', sans-serif;
-}
+/*.title-slide hgroup > h1{
+   font-family: 'Permanent Marker', cursive; } 
 
-.title-slide hgroup > h2{
-  font-family: 'Oswald', 'Calibri', sans-serif;
-}
+/*.title-slide hgroup > h2{
+  /*font-family: 'Oswald', 'Calibri', sans-serif;*/
+   /*font-family: 'Permanent Marker', cursive;} */
 
 /* Fonts and Spacing */
 article p, article li, article li.build, section p, section li{
@@ -143,51 +144,40 @@ q.shout:after {
 }
 
 /* Tables */
-table caption{
-  margin-top: 20pt;
-  font-weight: normal;
-  font-family: "Trebuchet MS", Garuda, sans-serif;
-}
-
-table th {
-  text-transform: capitalize;
-}
-
-/* Tables */
 
 table {
   border: none;
-  width: 100%;
+  width: 60%;
   border-collapse: collapse;
-  font-size: 45px;
-  line-height: 50px;
+  font-size: 24px;
+  line-height: 32px;
   font-family: 'Trebuchet MS';
   font-weight: bolder;
-  color: rgb(102, 102, 102);
+  color: black;
+   margin: 0 auto;
 }
 table thead {
-  border-top: 1px solid #BFBEAD;
-  border-bottom: 1px solid #BFBEAD;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
 }
 table th, table td, table caption {
   margin: 0;
-  padding: 2pt 6pt;
-  text-align: left;
+  padding: 2pt;
+  text-align: center;
   vertical-align: top;
 }
 table th {
-  background: #CFCEBD;
-  color: #575400;
-  text-transform: uppercase;
-}
+  background: white;
+  color: black;
+  
+ }
 table td {
-  border-bottom: 1px solid #CFCEBD;
+  border-bottom: 1px solid black;
 }
 table tr:nth-child(2n+1) {
 /*  background: #E8F2FF; */
-  background: #EFEEDD;
+  background: white;
 }
-
 /* Styling for Ordered Lists (only for io2012) */
 
 ol {
@@ -356,14 +346,18 @@ pre code {
   /* background-image:url(http://goo.gl/EpXln); */
 }
 
-.title-slide hgroup > h1{
- font-family: 'Oswald', 'Helvetica', sanserif; 
+.title-slide hgroup > h1,
+.title-slide hgroup > h2{
+/* font-family: 'Permanent Marker', cursive; */
+ /*font-family: 'Londrina Sketch', cursive;*/
+ font-family: 'Cabin Sketch', cursive;
 }
 
 .title-slide hgroup > h1, 
 .title-slide hgroup > h2 {
   color: #535E43 ;  /* ; #EF5150*/
 }
+
 
 .ninety {
   font-size: 90%;
