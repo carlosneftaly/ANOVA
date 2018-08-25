@@ -7,7 +7,7 @@ job         : www.microbiostats.com
 framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
 highlighter : highlight.js  # {highlight.js, prettify, highlight}
 hitheme     : tomorrow      # 
-widgets     : [mathjax, quiz, bootstrap]            # {mathjax, quiz, bootstrap}
+widgets     : [mathjax, quiz, bootstrap]     # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {standalone, draft}
 license     : CC 
 knit        : slidify::knit2slides
@@ -16,8 +16,9 @@ knit        : slidify::knit2slides
 ## Comparando dos grupos... 
 ```{r Paquetes, include=FALSE}
  library("pander", lib.loc="~/R/win-library/3.4")
+library(multcomp)
 library(car)
-#library(agricolae)
+library(agricolae)
 library(dplyr)
 library(ggplot2)
 library(ggpubr)
@@ -166,7 +167,7 @@ wdata3 = data.frame(
 ggdotplot(wdata3, x = "Tratamiento", y='UFC',
             add = "mean", rug = TRUE,
             fill = "Tratamiento",
-             xlab = 'UFC/g', ylab = 'UFC/g')
+             xlab = 'Tratamiento', ylab = 'UFC/g')
 ```
 
 
@@ -467,8 +468,7 @@ ggplot(wdata2, aes(Tratamiento, UFC)) +
 
 bartlett.test(count ~ spray, data = InsectSprays)
 
-with(Moore, leveneTest(conformity, fcategory))
-with(Moore, leveneTest(conformity, interaction(fcategory, partner.status)))
+
 bartlett.test(conformity ~ fcategory, data=Moore)
 ```
 
@@ -486,8 +486,135 @@ leveneTest(conformity ~ fcategory*partner.status, data=Moore)
 
 ```
 
+--- bg:black
+
+## Hay vida después de $P < 0.05$...
+
+```{r, echo=FALSE,fig.align='center'}
+      knitr::include_graphics('./assets/img/tenorBx2.gif')
+```
+
+--- 
+
+## ¿Y qué sigue ahora...? 
+
+```{r, echo=FALSE,fig.align='center'}
+      knitr::include_graphics('./assets/img/Confs.gif')
+```
+
+----
+
+## Comparaciones múltiples
+
+> + Un resultado significantivo en la ANOVA (__F-test__) nos dice que al menos una de las medias es diferente, _pero no cual de ellas es la realmente distinta_.
+
+> + Por lo tanto, necesitamos una prueba que nos compare todas las muestras, estas son llamadas:<p style="color:blue"> Comparaciones múltiples</p>.
+
+> + Número de comparaciones según los tratamientos: 
+
+\[{k \choose 2} = \frac{k!}{2! (k-2)!} = \frac{k(k-1)}{2} \]
+
 ---
 
-## Padoc
+## Comparaciones múltiples
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=7, fig.width=12}
+require(ggplot2)
+vK<- sapply(0:100, function(x) 1-(0.95)^x)
+dfK<-data.frame(K=0:100, vK )
+
+ggplot(dfK, aes(K, vK)) + geom_line() + theme_bw()+ 
+  theme(axis.title.x=element_text(size = 22),
+        axis.title.y = element_text(size = 22)) + labs(x='Número de comparaciones',
+                                                       y='Probabilidad de error') +
+  scale_x_continuous(breaks=c(0,10,20,30,40,50,60,70,80, 90, 100)) + 
+  scale_y_continuous(breaks=c(0, 0.1, 0.2, 0.3, 0.4, 0.5,0.6,0.7,0.8,0.9,1)) + 
+  annotate('text', x=70, y=0.4, label='Probabilidad de obtener un falso positivo 
+           \n Nótese que con 60 la Pr es cercana al 95%', colour='blue', size=6)
+
+
+
+```
+
+---&vcenter
+
+## 
+
+<q>¿Cuál de las medias es diferente a el nivel de significancia usado ? </q> 
 
 ---
+
+## Prueba Honesta de Tukey - Tukey HSD
+<span style="display:block; height: 5cm;"></span>
+\[HSD = \frac{\bar{x_1} - \bar{x_2}}{\sqrt{\frac{MS_{Dentro}}{n}}}\]
+
+
+---&twocol
+
+## Prueba Honesta de Tukey - Tukey HSD
+
+*** =left
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+wdata4 = data.frame(
+  Tratamiento = factor(rep(c("Nada", "Hongos", 'Solarizada', 'Basamid'), each=5)),
+  UFC = c(rnorm(5, 4), rnorm(5, 7), rnorm(5, 4), rnorm(5, 2)))
+
+
+wdata4$Tratamiento<-factor(wdata4$Tratamiento, levels = c('Nada','Hongos','Basamid','Solarizada'))
+
+ggplot(wdata4, aes(Tratamiento, UFC)) + 
+  geom_boxplot(aes(fill = Tratamiento))  + 
+  geom_jitter(position = position_jitter(width = .15), alpha=0.3, size=2) +
+  xlab("Tratamiento") +
+  ylab("Log(UFC/g)") +theme_bw() + theme(legend.position = "none",axis.title.x=element_text(size = 22), 
+                                     axis.title.y = element_text(size = 22))
+
+
+
+
+```
+
+*** =right
+
+ <span style="display:block; height: 4cm;"></span>
+ 
+```{r, echo=FALSE, message=FALSE}
+kable(anova(mod<-lm(UFC~Tratamiento, data=wdata4)), digits = 3)
+```
+
+
+---
+
+## Prueba Honesta de Tukey - Tukey HSD
+ <span style="display:block; height: 2cm;"></span>
+ 
+```{r, echo=FALSE}
+mod<-lm(UFC~Tratamiento, data=wdata4)
+pp<-HSD.test(mod,'Tratamiento', group  = F)
+kable(pp$comparison, digits = 3)
+```
+
+---
+
+## Prueba de Dunnett 
+
+<span style="display:block; height: 5cm;"></span>
+
+ \[D_{Dunnett} = t_{Dunnett} \sqrt{\frac{MS_{error}}{n}}\]
+
+---
+
+## Prueba de Dunnett 
+
+```{r, echo=FALSE}
+summary(glht(mod, linfct=mcp(Tratamiento='Dunnett')))
+```
+
+---&vcenter
+
+## 
+
+<q>ANOVA FACTORIAL</q> 
+---
+
+
