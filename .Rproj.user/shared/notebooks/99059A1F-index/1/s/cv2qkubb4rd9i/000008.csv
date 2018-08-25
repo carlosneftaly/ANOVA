@@ -1,7 +1,0 @@
-"0","wdata3 = data.frame("
-"0","  Tratamiento = factor(rep(c(""Nada"", ""Hongos"", 'Solarizada', 'Basamid'), each=10)),"
-"0","  UFC = c(rnorm(10, 4), rnorm(10, 4), rnorm(10, 4), rnorm(10, 4)))"
-"0","ggdotplot(wdata3, x = ""Tratamiento"", y='UFC',"
-"0","            add = ""mean"", rug = TRUE,"
-"0","            fill = ""Tratamiento"","
-"0","             xlab = 'UFC/g', ylab = 'Frecuencia')"

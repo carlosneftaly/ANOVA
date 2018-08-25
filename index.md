@@ -7,7 +7,7 @@ job         : www.microbiostats.com
 framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
 highlighter : highlight.js  # {highlight.js, prettify, highlight}
 hitheme     : tomorrow      # 
-widgets     : [mathjax, quiz, bootstrap]            # {mathjax, quiz, bootstrap}
+widgets     : [mathjax, quiz, bootstrap]     # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {standalone, draft}
 license     : CC 
 knit        : slidify::knit2slides
@@ -16,7 +16,7 @@ knit        : slidify::knit2slides
 ## Comparando dos grupos... 
 
 
-<img src="assets/fig/unnamed-chunk-1-1.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" style="display: block; margin: auto;" />
+<img src="figure/unnamed-chunk-1-1.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" style="display: block; margin: auto;" />
 
 --- 
 
@@ -26,7 +26,7 @@ knit        : slidify::knit2slides
 ## Introducción
 
 
-<img src="assets/fig/unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
+<img src="figure/unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
 
 ---
 
@@ -42,7 +42,7 @@ knit        : slidify::knit2slides
 
  Se refiere a una clase de muestreo o diseños experimentales, en los   cuales la variable __predictora__ o __explicativa__ es   _categórica_ y la variable __respuesta__ es  __continua__.
 
-<img src="assets/fig/unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" />
+<img src="figure/unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" />
 
 ---
 
@@ -77,7 +77,7 @@ es poner a prueba la hipótesis nula global:
 
 \[ H_a: \text{al menos una media difiere} \]
 
-<img src="assets/fig/unnamed-chunk-6-1.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto;" />
+<img src="figure/unnamed-chunk-6-1.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto;" />
 
 
 ---
@@ -98,7 +98,7 @@ es poner a prueba la hipótesis nula global:
 
 Si la varianza __entre grupos__ es similar a la __dentro__ de los grupos: 
 
-<img src="assets/fig/unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
+<img src="figure/unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
 
 
 ---
@@ -107,7 +107,7 @@ Si la varianza __entre grupos__ es similar a la __dentro__ de los grupos:
 
 Si la varianza __entre grupos__ es similar a la __dentro__ de los grupos: 
 
-<img src="assets/fig/unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
+<img src="figure/unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
 
 
 ---
@@ -116,7 +116,7 @@ Si la varianza __entre grupos__ es similar a la __dentro__ de los grupos:
 
 Si la varianza __entre grupos__ es mucho mayor que la __dentro__ de los grupos: 
 
-<img src="assets/fig/unnamed-chunk-9-1.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" style="display: block; margin: auto;" />
+<img src="figure/unnamed-chunk-9-1.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" style="display: block; margin: auto;" />
 
 
 ---
@@ -125,7 +125,7 @@ Si la varianza __entre grupos__ es mucho mayor que la __dentro__ de los grupos:
 
 Si la varianza __entre grupos__ es mucho mayor que la __dentro__ de los grupos: 
 
-<img src="assets/fig/unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" />
+<img src="figure/unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" />
 
 ---
 
@@ -244,7 +244,7 @@ dentro de cada grupo provienen de  poblaciones con distribución normal.
 Los histogramas, de forma, exploratoria nos permite determinar _simetría_ y 
 _modalidad_ en nuestros datos.
 
-<img src="assets/fig/unnamed-chunk-15-1.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" style="display: block; margin: auto;" />
+<img src="figure/unnamed-chunk-15-1.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" style="display: block; margin: auto;" />
 
 ---
 
@@ -305,7 +305,7 @@ en cada nivel, o combinación de los niveles del factor o factores.
 
 ## Homocedasticidad: Validación gráfica mediante Box-plot
 
-<img src="assets/fig/unnamed-chunk-19-1.png" title="plot of chunk unnamed-chunk-19" alt="plot of chunk unnamed-chunk-19" style="display: block; margin: auto;" />
+<img src="figure/unnamed-chunk-19-1.png" title="plot of chunk unnamed-chunk-19" alt="plot of chunk unnamed-chunk-19" style="display: block; margin: auto;" />
 
 ---
 
@@ -325,20 +325,6 @@ en cada nivel, o combinación de los niveles del factor o factores.
 ## 
 ## data:  count by spray
 ## Bartlett's K-squared = 25.96, df = 5, p-value = 9.085e-05
-```
-
-```
-## Levene's Test for Homogeneity of Variance (center = median)
-##       Df F value Pr(>F)
-## group  2   0.046 0.9551
-##       42
-```
-
-```
-## Levene's Test for Homogeneity of Variance (center = median)
-##       Df F value Pr(>F)
-## group  5  1.4694 0.2219
-##       39
 ```
 
 ```
@@ -377,8 +363,119 @@ en cada nivel, o combinación de los niveles del factor o factores.
 ##       39
 ```
 
+--- bg:black
+
+## Hay vida después de $P < 0.05$...
+
+<img src="./assets/img/tenorBx2.gif" title="plot of chunk unnamed-chunk-23" alt="plot of chunk unnamed-chunk-23" style="display: block; margin: auto;" />
+
+--- 
+
+## ¿Y qué sigue ahora...? 
+
+<img src="./assets/img/Confs.gif" title="plot of chunk unnamed-chunk-24" alt="plot of chunk unnamed-chunk-24" style="display: block; margin: auto;" />
+
+----
+
+## Comparaciones múltiples
+
+> + Un resultado significantivo en la ANOVA (__F-test__) nos dice que al menos una de las medias es diferente, _pero no cual de ellas es la realmente distinta_.
+
+> + Por lo tanto, necesitamos una prueba que nos compare todas las muestras, estas son llamadas:<p style="color:blue"> Comparaciones múltiples</p>.
+
+> + Número de comparaciones según los tratamientos: 
+
+\[{k \choose 2} = \frac{k!}{2! (k-2)!} = \frac{k(k-1)}{2} \]
+
 ---
 
-## Padoc
+## Comparaciones múltiples
+
+<img src="figure/unnamed-chunk-25-1.png" title="plot of chunk unnamed-chunk-25" alt="plot of chunk unnamed-chunk-25" style="display: block; margin: auto;" />
+
+---&vcenter
+
+## 
+
+<q>¿Cuál de las medias es diferente a el nivel de significancia usado ? </q> 
 
 ---
+
+## Prueba Honesta de Tukey - Tukey HSD
+<span style="display:block; height: 5cm;"></span>
+\[HSD = \frac{\bar{x_1} - \bar{x_2}}{\sqrt{\frac{MS_{Dentro}}{n}}}\]
+
+
+---&twocol
+
+## Prueba Honesta de Tukey - Tukey HSD
+
+*** =left
+![plot of chunk unnamed-chunk-26](figure/unnamed-chunk-26-1.png)
+
+*** =right
+
+ <span style="display:block; height: 4cm;"></span>
+ 
+
+|            | Df| Sum Sq| Mean Sq| F value| Pr(>F)|
+|:-----------|--:|------:|-------:|-------:|------:|
+|Tratamiento |  3| 28.146|   9.382|  10.742|      0|
+|Residuals   | 16| 13.974|   0.873|      NA|     NA|
+
+
+---
+
+## Prueba Honesta de Tukey - Tukey HSD
+ <span style="display:block; height: 2cm;"></span>
+ 
+
+|                     | difference| pvalue|signif. |    LCL|    UCL|
+|:--------------------|----------:|------:|:-------|------:|------:|
+|Basamid - Hongos     |     -3.290|  0.000|***     | -4.981| -1.599|
+|Basamid - Nada       |     -1.209|  0.213|        | -2.900|  0.482|
+|Basamid - Solarizada |     -1.150|  0.249|        | -2.841|  0.541|
+|Hongos - Nada        |      2.081|  0.014|*       |  0.389|  3.772|
+|Hongos - Solarizada  |      2.139|  0.011|*       |  0.448|  3.830|
+|Nada - Solarizada    |      0.059|  1.000|        | -1.632|  1.750|
+
+---
+
+## Prueba de Dunnett 
+
+<span style="display:block; height: 5cm;"></span>
+
+ \[D_{Dunnett} = t_{Dunnett} \sqrt{\frac{MS_{error}}{n}}\]
+
+---
+
+## Prueba de Dunnett 
+
+
+```
+## 
+## 	 Simultaneous Tests for General Linear Hypotheses
+## 
+## Multiple Comparisons of Means: Dunnett Contrasts
+## 
+## 
+## Fit: lm(formula = UFC ~ Tratamiento, data = wdata4)
+## 
+## Linear Hypotheses:
+##                        Estimate Std. Error t value Pr(>|t|)   
+## Hongos - Nada == 0      2.08052    0.59106   3.520  0.00763 **
+## Basamid - Nada == 0    -1.20919    0.59106  -2.046  0.13825   
+## Solarizada - Nada == 0 -0.05889    0.59106  -0.100  0.99926   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## (Adjusted p values reported -- single-step method)
+```
+
+---&vcenter
+
+## 
+
+<q>ANOVA FACTORIAL</q> 
+---
+
+
